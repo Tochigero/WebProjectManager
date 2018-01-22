@@ -12,7 +12,7 @@ services:
 
     apache:
         image: httpd:2.4
-        depends_on:
+        links:
             - php-fpm
         volumes:
             - ./src:/var/www/html
@@ -25,6 +25,8 @@ services:
 
     php-cli:
         build: docker/php-cli
+        depends_on:
+            - mysql
 
     adminer:
         image: clue/adminer
