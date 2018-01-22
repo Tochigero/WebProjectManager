@@ -1,0 +1,43 @@
+version: "2"
+
+services:
+    mysql:
+        image: mysql:5.6
+        env_file:
+            - .env
+        volumes:
+            - mysql:/var/lib/mysql
+        ports:
+            - "33006:3306"
+
+    apache:
+        image: httpd:2.4
+        depends_on:
+            - php-fpm
+        volumes:
+            - ./src:/var/www/html
+            - ./docker/apache/vhost.conf:/etc/apache2/sites-avalable/default.conf
+        ports:
+            - "80:80"
+
+    php-fpm:
+        build: docker/php-fpm
+
+    php-cli:
+        build: docker/php-cli
+
+    adminer:
+        image: clue/adminer
+        depends_on:
+            - mysql
+        ports:
+            - 8080:80
+
+    mail:
+        container_name: mail
+        image: djfarrelly/maildev
+        ports:
+            - 8081:80
+
+volumes:
+    mysql: {}
