@@ -1,16 +1,17 @@
 version: "2"
 
 services:
-    apache:
-        build: docker/apache
-        depends_on:
-            - php-fpm
-            - php-cli
+    php-apache:
+        build: docker/php-apache
+        links:
             - mysql
         volumes:
             - ./src:/var/www/html
         ports:
             - "80:80"
+
+    php-cli:
+        build: docker/php-cli
 
     mysql:
         image: mysql:5.6
@@ -20,14 +21,6 @@ services:
             - mysql:/var/lib/mysql
         ports:
             - "33006:3306"
-
-    php-fpm:
-        build: docker/php-fpm
-        volumes:
-            - ./src:/var/www/html
-
-    php-cli:
-        build: docker/php-cli
 
     adminer:
         image: clue/adminer
