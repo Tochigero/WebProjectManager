@@ -1,5 +1,5 @@
 <?php
-// src/Controller/DefaultController.php
+
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +12,13 @@ class DefaultController extends Controller
         return new Response('
             <html>
                 <body>
-                    <h1>Hello Symfony 4 World</h1>
+                    <h1>Yolo</h1>
                 </body>
             </html>
         ');
+    }
+
+    public function get($id) {
+        return new Response($id);
     }
 }

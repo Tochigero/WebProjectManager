@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libxml2-dev \
     git \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP Coniguration
@@ -25,13 +26,14 @@ COPY config/apcu.ini config/xdebug.ini /usr/local/etc/php/conf.d/
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 
 # Apache
+RUN a2enmod rewrite
 RUN a2ensite 000-default.conf
 
 # Bash
 #RUN chsh -s /bin/bash www-data
 
 # Composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin
+RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin
 
 # Ports
 EXPOSE 80
