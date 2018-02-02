@@ -1,0 +1,17 @@
+html, body {
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+.centered:before {
+    width: 100%;
+    content: ' ';
+}
+
+.centered {
+    vert-align: middle;
+}

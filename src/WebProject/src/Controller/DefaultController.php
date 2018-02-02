@@ -7,18 +7,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
+    /**
+     * Homepage
+     * First test templating
+     *
+     * @return Response
+     */
     public function index()
     {
-        return new Response('
-            <html>
-                <body>
-                    <h1>Yolo</h1>
-                </body>
-            </html>
-        ');
+        return $this->render("front/homepage.html.twig");
     }
 
+    /**
+     * Test get url parameters
+     *
+     * @param string $id
+     * @return object|Response
+     */
     public function get($id) {
-        return new Response($id);
+        return $this->render('front/get.html.twig', [
+            "id" => $id
+        ]);
     }
 }
