@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+RUN docker-php-ext-install pdo_mysql
+
 # PHP Coniguration
 COPY config/php.ini /usr/local/etc/php/php.ini
 COPY config/apcu.ini config/xdebug.ini /usr/local/etc/php/conf.d/

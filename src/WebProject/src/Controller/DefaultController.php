@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProjectMinimalType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -15,7 +16,15 @@ class DefaultController extends Controller
      */
     public function index()
     {
-        return $this->render("front/homepage.html.twig");
+        $form = $this->createForm(ProjectMinimalType::class);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            dump("ok");die;
+        }
+
+        return $this->render("front/homepage.html.twig", [
+            "form" => $form->createView()
+        ]);
     }
 
     /**
