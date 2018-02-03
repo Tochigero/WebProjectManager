@@ -8,6 +8,8 @@ ENV APACHE_RUN_DIR=/var/run/apache2
 ENV APACHE_LOCK_DIR=/var/lock/apache2
 ENV APACHE_LOG_DIR=/var/log/apache2
 
+WORKDIR /var/www/html/WebProject
+
 # APT packages
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
