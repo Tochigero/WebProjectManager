@@ -1,15 +1,19 @@
 {% extends 'layout.html.twig' %}
 {% block body %}
+    <div class="title">
+            <h1>Bienvenue dans la creation de projet.</h1>
+    </div>
+
     <div class="centered">
-        {{ form_start(form, {'action' : 'http://www.youporn.com'}) }}
+        {{ form_start(form, {'action' : 'http://www.google.com'}) }}
         <div id="project_div">
             {{ form_widget(form.name, { 'attr': {'class': 'rk5_input', 'placeholder': 'Project name'} }) }}
-            <a href="/project/create" class="rk5_link">New project</a>
         </div>
+
         <div id="password_div">
-            {{ form_widget(form.password, { 'attr': {'class': 'rk5_input'} }) }}
-            <a href="#" class="rk5_link">Password forget ?</a>
+            {{ form_widget(form.password, { 'attr': {'class': 'rk5_input', 'placeholder': 'Project password'} }) }}
         </div>
+
         {#{{ form_widget(validate) }}#}
         {{ form_end(form) }}
     </div>

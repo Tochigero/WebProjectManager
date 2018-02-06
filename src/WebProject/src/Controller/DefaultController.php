@@ -26,6 +26,23 @@ class DefaultController extends Controller
             "form" => $form->createView()
         ]);
     }
+/**
+     * ProjectCreationPage
+     *
+     * @return Response
+     */
+ public function create()
+    {
+        $form = $this->createForm(ProjectMinimalType::class);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            dump("ok");die;
+        }
+
+        return $this->render("front/create.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
 
     /**
      * Test get url parameters

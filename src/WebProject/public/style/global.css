@@ -12,6 +12,10 @@ html, body {
     font-family: sans-serif;
 }
 
+.title {
+    color: green;
+}
+
 
 .centered:before {
     content: '';

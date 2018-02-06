@@ -6,6 +6,7 @@ get:
     path: /get/{id}
     controller: App\Controller\DefaultController::get
 
-test: 
-    path: /test
-    controller: App\Controller\TestController::index
+create:
+    path: /project/create
+    controller: App\Controller\DefaultController::create
+
