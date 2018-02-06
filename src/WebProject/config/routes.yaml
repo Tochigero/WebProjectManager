@@ -10,3 +10,11 @@ create:
     path: /project/create
     controller: App\Controller\DefaultController::create
 
+show_project:
+    path: /project/{name}
+    controller: App\Controller\DefaultController::showProject
+
+forget_password:
+    path: /forget/password
+    controller: App\Controller\DefaultController::forgetPassword
+

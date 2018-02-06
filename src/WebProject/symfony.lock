@@ -182,6 +182,9 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
+    "symfony/polyfill-php72": {
+        "version": "v1.7.0"
+    },
     "symfony/process": {
         "version": "v4.0.4"
     },
@@ -219,6 +222,9 @@
         }
     },
     "symfony/validator": {
+        "version": "v4.0.4"
+    },
+    "symfony/var-dumper": {
         "version": "v4.0.4"
     },
     "symfony/web-server-bundle": {

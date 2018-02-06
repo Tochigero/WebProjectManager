@@ -16,6 +16,9 @@ html, body {
     color: green;
 }
 
+#password_div {
+    display: none;
+}
 
 .centered:before {
     content: '';
@@ -41,6 +44,7 @@ html, body {
     border: none;
     border-radius: 5px;
     padding: 0 5px;
+    text-align: center;
 }
 
 .rk5_link {
@@ -54,6 +58,34 @@ html, body {
     color: white
 }
 
-#password_div {
-    display: none;
+#submit_div {
+    background: #bcf500;
+    background-image: -webkit-linear-gradient(top, #bcf500, #43b82c);
+    background-image: -moz-linear-gradient(top, #bcf500, #43b82c);
+    background-image: -ms-linear-gradient(top, #bcf500, #43b82c);
+    background-image: -o-linear-gradient(top, #bcf500, #43b82c);
+    background-image: linear-gradient(to bottom, #bcf500, #43b82c);
+
+    border-radius: 100%;
+    height: 45px;
+    width: 45px;
+    margin: 18px auto;
+
+    /*display: none;*/
+}
+
+#submit_div:active {
+    background: #dcf3f5;
+    border: 3px solid #bcf500;
+    margin: 15px auto;
+}
+
+.rk5_submit {
+    font-family: Arial;
+    border: none;
+    background-color: transparent;
+    margin: 11px auto;
+    font-size: 20px;
+    font-weight: bold;
+    outline: none;
 }

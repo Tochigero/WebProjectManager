@@ -1,0 +1,10 @@
+{% block form_widget_simple %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        <input type="{{ type }}" {{ block('widget_attributes') }} class="rk5_input"/>
+    {% endspaceless %}
+{% endblock form_widget_simple %}
+
+{%- block submit_widget -%}
+    <input type="submit" {{ block('button_attributes') }} class="rk5_submit" value="OK">
+{%- endblock submit_widget -%}

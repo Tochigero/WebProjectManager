@@ -1,0 +1,23 @@
+{% extends 'front/base/layout.html.twig' %}
+{% form_theme form 'theme/index_form.html.twig' %}
+
+{% block body %}
+    <div class="title" style="position: absolute">
+        <h1>Bienvenue dans la creation de projet.</h1>
+    </div>
+
+    <div class="centered">
+        {{ form_start(form) }}
+        <div id="project_div">
+            {{ form_widget(form.admin) }}
+        </div>
+        <div id="password_div">
+            {{ form_widget(form.password) }}
+            <div id="submit_div">
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <script src="/js/homepage.js"></script>
+{% endblock body %}

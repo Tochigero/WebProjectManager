@@ -4,13 +4,14 @@ namespace App\Form;
 
 use App\Entity\Project;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProjectMinimalType extends AbstractType
+class ForgetPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,25 +23,30 @@ class ProjectMinimalType extends AbstractType
                     'placeholder' => 'Project Code Words',
                 ]
             ])
+            ->add('key', TextType::class, [
+                'label' => ' ',
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Your key',
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 'label' => ' ',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Your password',
+                    'placeholder' => 'Your new password',
                 ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => ' ',
+            ])
+            ->add('token', TextType::class, [
+                'label' => ' ',
                 'attr' => [
                     'hidden' => 'hidden'
                 ]
-            ]);
-    }
+            ])
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Project::class,
-        ]);
+        ;
     }
 }
