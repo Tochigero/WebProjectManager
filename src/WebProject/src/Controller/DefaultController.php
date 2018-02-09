@@ -27,16 +27,20 @@ class DefaultController extends Controller
             $project_name = $request->request->get('project_minimal')['name'];
             $password = $request->request->get('project_minimal')['password'];
 
-            $em =$this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
             $projectRepo = $em->getRepository(Project::class);
-            // TODO
-            $project = $projectRepo->findOneBy(['name' => 'random_name', 'password' => 'random_password']);
 
-            $_SESSION['token'] = $tg->newToken($project);
+            $project = $projectRepo->findOneBy(['name' => $project_name, 'password' => $password]);
 
-            return $this->redirectToRoute('show_project', [
-                'name' => 'random_name'
-            ]);
+            if (!is_null($project)) {
+                $_SESSION['token'] = $tg->newToken($project);
+
+                return $this->redirectToRoute('show_project', [
+                    'name' => 'random_name'
+                ]);
+            } else {
+                // TODO Add error
+            }
         }
 
         return $this->render("front/index/homepage.html.twig", [
@@ -60,11 +64,13 @@ class DefaultController extends Controller
             $project = new Project();
             $project->setAdmin($create['admin']);
             $project->setAdminPassword($create['password']);
+            // TODO Generate random parameters
             $project->setName('random_name');
             $project->setPassword('random_password');
 
             $em->persist($project);
             $em->flush();
+            // TODO Send mail with name and password
 
             $_SESSION['token'] = $tg->newToken($project);
 
@@ -81,27 +87,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * Project Action
-     *
-     * @param $name
-     * @return Response
-     */
-    public function showProject($name) {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository(Project::class);
-
-        $project = $repo->findOneByName($name);
-
-        return $this->render("front/project/main.html.twig", [
-            "project" => $project
-        ]);
-    }
-
-    /**
      * Forget Password Action
      */
-    public function forgetPassword() {
+    public function forgetPassword()
+    {
         $form = $this->createForm(ForgetPasswordType::class);
+
+        // TODO Forget Password Process
 
         return $this->render("front/index/forget_password.html.twig", [
             'form' => $form->createView()

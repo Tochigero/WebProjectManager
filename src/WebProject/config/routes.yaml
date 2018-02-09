@@ -1,20 +1,19 @@
+# Index #
 index:
     path: /
     controller: App\Controller\DefaultController::index
 
-get:
-    path: /get/{id}
-    controller: App\Controller\DefaultController::get
-
 create:
-    path: /project/create
+    path: /create
     controller: App\Controller\DefaultController::create
-
-show_project:
-    path: /project/{name}
-    controller: App\Controller\DefaultController::showProject
 
 forget_password:
     path: /forget/password
     controller: App\Controller\DefaultController::forgetPassword
+
+
+# Project #
+show_project:
+    path: /project/{name}
+    controller: App\Controller\ProjectController::showProject
 
