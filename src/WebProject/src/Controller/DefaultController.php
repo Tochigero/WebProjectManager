@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Form\ForgetPasswordType;
 use App\Form\ProjectCreateType;
 use App\Form\ProjectMinimalType;
+use App\Service\TokenGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,13 +19,24 @@ class DefaultController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request, TokenGenerator $tg)
     {
         $form = $this->createForm(ProjectMinimalType::class);
 
-        if ($form->isSubmitted() and $form->isValid()) {
-            dump("ok");
-            die;
+        if ($request->isMethod('POST')) {
+            $project_name = $request->request->get('project_minimal')['name'];
+            $password = $request->request->get('project_minimal')['password'];
+
+            $em =$this->getDoctrine()->getManager();
+            $projectRepo = $em->getRepository(Project::class);
+            // TODO
+            $project = $projectRepo->findOneBy(['name' => 'random_name', 'password' => 'random_password']);
+
+            $_SESSION['token'] = $tg->newToken($project);
+
+            return $this->redirectToRoute('show_project', [
+                'name' => 'random_name'
+            ]);
         }
 
         return $this->render("front/index/homepage.html.twig", [
@@ -37,7 +49,7 @@ class DefaultController extends Controller
      *
      * @return Response
      */
-    public function create(Request $request)
+    public function create(Request $request, TokenGenerator $tg)
     {
         // If POST we create new Project
         if ($request->isMethod('POST')) {
@@ -53,6 +65,8 @@ class DefaultController extends Controller
 
             $em->persist($project);
             $em->flush();
+
+            $_SESSION['token'] = $tg->newToken($project);
 
             return $this->redirectToRoute('show_project', [
                 'name' => 'random_name'

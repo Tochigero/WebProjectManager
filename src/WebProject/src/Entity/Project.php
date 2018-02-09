@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Token;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
@@ -35,6 +36,11 @@ class Project
      * @ORM\Column(type="string")
      */
     private $admin_password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Token", mappedBy="project_id")
+     */
+    private $tokens;
 
     /**
      * @return mixed
@@ -116,5 +122,20 @@ class Project
         $this->admin_password = $admin_password;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * @param mixed $tokens
+     */
+    public function addTokens($token)
+    {
+        $this->tokens[] = $token;
+    }
 
 }

@@ -25,4 +25,18 @@ class ProjectRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // TODO a revoir
+    public function findProjectPassword($name, $password)
+    {
+        // Convert password
+        return $this->createQueryBuilder('p')
+            ->where('p.name = :name')
+            ->setParameter('name', $name)
+            ->andWhere('p.password = :password')
+            ->setParameter('password', $password)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
