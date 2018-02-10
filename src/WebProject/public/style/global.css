@@ -12,6 +12,17 @@ html, body {
     font-family: sans-serif;
 }
 
+.error   {
+    position: relative;
+    font-size: small;
+    color: red;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #FFF;
+    width: auto;
+    height: 00px;
+}
+
 .title {
     color: green;
 }

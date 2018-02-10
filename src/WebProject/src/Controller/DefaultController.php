@@ -40,7 +40,11 @@ class DefaultController extends Controller
                     'name' => $project_name
                 ]);
             } else {
-                // TODO Add error
+                   $error = "Le Projet recherché n'a pas été trouvé.";
+                 return $this->render("front/index/homepage.html.twig", [
+            "form" => $form->createView(),
+            "error" => $error
+        ]);
             }
         }
 
@@ -49,6 +53,8 @@ class DefaultController extends Controller
         ]);
     }
 
+    
+    
     /**
      * ProjectCreationPage
      *

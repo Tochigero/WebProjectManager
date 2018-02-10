@@ -27,4 +27,3 @@ forget_check:
 show_project:
     path: /project/{name}
     controller: App\Controller\ProjectController::showProject
-
