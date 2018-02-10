@@ -8,9 +8,9 @@ use App\Form\ProjectCreateType;
 use App\Form\ProjectMinimalType;
 use App\Service\RandomGenerator;
 use App\Service\TokenGenerator;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
@@ -37,7 +37,7 @@ class DefaultController extends Controller
                 $_SESSION['token'] = $tg->newToken($project);
 
                 return $this->redirectToRoute('show_project', [
-                    'name' => 'random_name'
+                    'name' => $project_name
                 ]);
             } else {
                 // TODO Add error
@@ -54,7 +54,7 @@ class DefaultController extends Controller
      *
      * @return Response
      */
-    public function create(Request $request, TokenGenerator $tg, RandomGenerator $rng, \Swift_Mailer $mailer)
+    public function create(Request $request, TokenGenerator $tg, RandomGenerator $rng)
     {
         // If POST we create new Project
         if ($request->isMethod('POST')) {
@@ -76,8 +76,7 @@ class DefaultController extends Controller
             // Mail Send
             $transport = (new \Swift_SmtpTransport('mail', 25))
                 ->setUsername(null)
-                ->setPassword(null)
-            ;
+                ->setPassword(null);
             $mailer = new \Swift_Mailer($transport);
 
             $message = (new \Swift_Message('Your new Project'))
@@ -87,8 +86,7 @@ class DefaultController extends Controller
                 ->setBody($this->renderView("mail/project_create.html.twig", [
                         "project" => $project
                     ]
-                ))
-            ;
+                ));
             $mailer->send($message);
 
             // Session Token
@@ -109,16 +107,102 @@ class DefaultController extends Controller
     /**
      * Forget Password Action
      */
-    public function forgetPassword()
+    public function forgetPassword(Request $request, RandomGenerator $rng)
     {
         $form = $this->createForm(ForgetPasswordType::class);
 
-        // TODO Forget Password Process
+        $session = $this->container->get('session');
+
+        if ($request->isMethod('POST')) {
+            $values = $request->request->get('forget_password');
+
+            $forgetToken = $session->get('forgetToken');
+            $passwordToken = $session->get('passwordToken');
+            if ($values['key'] == $forgetToken and $values['token'] == $passwordToken) {
+                $em = $this->getDoctrine()->getManager();
+                $projectRepo = $em->getRepository(Project::class);
+
+                $project = $projectRepo->findOneByName($values['name']);
+                $project->setPassword($values['password']);
+
+                $em->persist($project);
+                $em->flush();
+
+                // TODO Ok signal or redirect into the project
+                return $this->redirectToRoute('index');
+            } else {
+                // Error
+                $errors = [];
+                $errors[] = "Clef invalide";
+
+                return $this->render("front/index/forget_password.html.twig", [
+                    'form' => $form->createView(),
+                    'errors' => $errors
+                ]);
+            }
+        }
+
+        $session->set('forgetToken', $rng->randomForgetKey());
 
         return $this->render("front/index/forget_password.html.twig", [
             'form' => $form->createView()
         ]);
 
+    }
+
+    /**
+     * Check the token and send it by mail
+     *
+     * @return Response
+     */
+    public function forgetToken()
+    {
+        $session = $this->container->get('session');
+        if ($session->has('forgetToken') and isset($_POST['project_name'])) {
+            // Find project
+            $em = $this->getDoctrine()->getManager();
+            $projectRepo = $em->getRepository(Project::class);
+            $project = $projectRepo->findOneByName($_POST['project_name']);
+
+            if (!is_null($project)) {
+                $transport = (new \Swift_SmtpTransport('mail', 25))
+                    ->setUsername(null)
+                    ->setPassword(null);
+                $mailer = new \Swift_Mailer($transport);
+
+                $message = (new \Swift_Message('Did you lose something ?'))
+                    ->setFrom(['no-reply@project.com' => 'Project Contact'])
+                    ->setTo($project->getAdmin())
+                    ->setContentType('text/html')
+                    ->setBody($this->renderView("mail/forget_token.html.twig", [
+                            "token" => $session->get('forgetToken')
+                        ]
+                    ));
+                $mailer->send($message);
+
+                return new Response("true");
+            } else {
+                return new Response("false");
+            }
+
+        }
+    }
+
+    /**
+     * Check token posted with token in session and generate a new hash code
+     *
+     * @param $key
+     * @param RandomGenerator $rng
+     * @return Response
+     */
+    public function forgetCheck($key, RandomGenerator $rng)
+    {
+        $session = $this->container->get('session');
+        if ($session->has('forgetToken') and strlen($key) === 5 and $session->get('forgetToken') === $key) {
+            $session->set('passwordToken', $rng->randomHash());
+            return new Response($session->get('passwordToken'));
+        }
+        return new Response("false");
     }
 
 }

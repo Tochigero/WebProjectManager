@@ -38,6 +38,20 @@ class RandomGenerator
     }
 
     /**
+     * @return string 5 random char
+     */
+    public function randomForgetKey() {
+        return strtoupper(substr($this->randomHash(), 0, 5));
+    }
+
+    /**
+     * @return string
+     */
+    public function randomHash() {
+        return md5(rand(1, 9999));
+    }
+
+    /**
      * TODO
      * @param $option
      * $option['length'] Words size

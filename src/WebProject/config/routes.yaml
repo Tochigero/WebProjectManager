@@ -11,6 +11,17 @@ forget_password:
     path: /forget/password
     controller: App\Controller\DefaultController::forgetPassword
 
+forget_token:
+    path: /forget/token
+    controller: App\Controller\DefaultController::forgetToken
+    methods: [POST]
+
+forget_check:
+    path: /forget/check/{key}
+    controller: App\Controller\DefaultController::forgetCheck
+    methods: [POST]
+#    requirements:
+#            key:  \w{5}
 
 # Project #
 show_project:

@@ -16,7 +16,7 @@ html, body {
     color: green;
 }
 
-#password_div {
+#password_div, #key_div {
     display: none;
 }
 
@@ -58,7 +58,7 @@ html, body {
     color: white
 }
 
-#submit_div {
+.submit_div {
     background: #bcf500;
     background-image: -webkit-linear-gradient(top, #bcf500, #43b82c);
     background-image: -moz-linear-gradient(top, #bcf500, #43b82c);
@@ -88,4 +88,19 @@ html, body {
     font-size: 20px;
     font-weight: bold;
     outline: none;
+}
+
+.key_checker {
+    position: absolute;
+    display: inline-flex;
+    transform: translate(25%, -63%);
+}
+
+.red_button {
+    background: #f6697c;
+    background-image: -webkit-linear-gradient(top, #f6697c, #b82c2c);
+    background-image: -moz-linear-gradient(top, #f6697c, #b82c2c);
+    background-image: -ms-linear-gradient(top, #f6697c, #b82c2c);
+    background-image: -o-linear-gradient(top, #f6697c, #b82c2c);
+    background-image: linear-gradient(to bottom, #f6697c, #b82c2c);
 }

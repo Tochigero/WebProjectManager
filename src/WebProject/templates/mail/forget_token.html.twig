@@ -1,0 +1,12 @@
+{% extends 'mail/base/layout.html.twig' %}
+{% block body %}
+<div class="mainDiv">
+    <p>Hello</p>
+    <br>
+    <p>Use this token to retrieve your Project Password</p>
+    <br>
+    <p id="nameProject"> {{ token }}</p>
+    <br>
+    <p>Good Job !</p>
+</div>
+{% endblock %}

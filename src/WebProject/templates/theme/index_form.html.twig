@@ -1,7 +1,7 @@
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
-        <input type="{{ type }}" {{ block('widget_attributes') }} class="rk5_input"/>
+        <input type="{{ type }}" {{ block('widget_attributes') }} autocomplete="off" class="rk5_input"/>
     {% endspaceless %}
 {% endblock form_widget_simple %}
 
