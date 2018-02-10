@@ -20,6 +20,11 @@ class TokenGenerator
 
     public function newToken(Project $project)
     {
+        if (isset($_SESSION['token'])) {
+            $token = $this->em->getRepository(Token::class)->findByToken($_SESSION['token']);
+            $this->em->remove($token);
+        }
+
         $expire_date = new \DateTime('now');
         $expire_date = $expire_date->add(\DateInterval::createFromDateString('12 hours'));
 

@@ -1,0 +1,16 @@
+{% extends 'mail/base/layout.html.twig' %}
+{% block body %}
+<div class="mainDiv">
+    <p>Welcome</p>
+    <br>
+    <p>Your new project has been built</p>
+    <br>
+    <p>Your Project Code :</p>
+    <p id="nameProject"> {{ project.name }}</p>
+    <br>
+    <p>Your Project Password :</p>
+    <p id="passwordProject"> {{ project.password }}</p>
+    <br>
+    <p>Good Work !</p>
+</div>
+{% endblock %}

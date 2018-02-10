@@ -28,6 +28,7 @@ services:
         image: djfarrelly/maildev
         ports:
             - "8081:80"
+            - "25:25"
 
 volumes:
     mysql: {}

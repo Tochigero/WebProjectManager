@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Form\ForgetPasswordType;
 use App\Form\ProjectCreateType;
 use App\Form\ProjectMinimalType;
+use App\Service\RandomGenerator;
 use App\Service\TokenGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,7 +54,7 @@ class DefaultController extends Controller
      *
      * @return Response
      */
-    public function create(Request $request, TokenGenerator $tg)
+    public function create(Request $request, TokenGenerator $tg, RandomGenerator $rng, \Swift_Mailer $mailer)
     {
         // If POST we create new Project
         if ($request->isMethod('POST')) {
@@ -64,18 +65,37 @@ class DefaultController extends Controller
             $project = new Project();
             $project->setAdmin($create['admin']);
             $project->setAdminPassword($create['password']);
-            // TODO Generate random parameters
-            $project->setName('random_name');
-            $project->setPassword('random_password');
+
+            // Project Creation
+            $project->setName($rng->randomCode());
+            $project->setPassword($rng->randomPassword());
 
             $em->persist($project);
             $em->flush();
-            // TODO Send mail with name and password
 
+            // Mail Send
+            $transport = (new \Swift_SmtpTransport('mail', 25))
+                ->setUsername(null)
+                ->setPassword(null)
+            ;
+            $mailer = new \Swift_Mailer($transport);
+
+            $message = (new \Swift_Message('Your new Project'))
+                ->setFrom(['no-reply@project.com' => 'Project Contact'])
+                ->setTo([$create['admin'] => $create['admin']])
+                ->setContentType('text/html')
+                ->setBody($this->renderView("mail/project_create.html.twig", [
+                        "project" => $project
+                    ]
+                ))
+            ;
+            $mailer->send($message);
+
+            // Session Token
             $_SESSION['token'] = $tg->newToken($project);
 
             return $this->redirectToRoute('show_project', [
-                'name' => 'random_name'
+                'name' => $project->getName()
             ]);
         }
 
