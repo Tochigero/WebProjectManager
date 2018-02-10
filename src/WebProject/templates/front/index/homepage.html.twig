@@ -3,12 +3,13 @@
 
 {% block body %}
     <div class="centered">
-        {% if error is defined %}  
+       
+        {{ form_start(form) }}
+         {% if error is defined %}  
             <div class="error">
             <p>{{error}}</p>
             </div>
         {% endif %}
-        {{ form_start(form) }}
         <div id="project_div">
             {{ form_widget(form.name) }}
             <a href="{{ path('create') }}" class="rk5_link">New project</a>
