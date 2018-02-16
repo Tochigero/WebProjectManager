@@ -14,7 +14,7 @@ $("#forget_div > input").on("keyup", function (e) {
                 $("#forget_div").hide();
                 $("#key_div").show();
             } else {
-                // TODO Error
+                $("#error_div").show();
                 console.log("error");
             }
         });

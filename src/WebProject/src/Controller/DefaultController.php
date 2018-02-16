@@ -40,7 +40,7 @@ class DefaultController extends Controller
                     'name' => $project_name
                 ]);
             } else {
-                   $error = "Le Projet recherché n'a pas été trouvé.";
+                   $error = "The project that you are looking for doesn't exist. Please try again.";
                  return $this->render("front/index/homepage.html.twig", [
             "form" => $form->createView(),
             "error" => $error
@@ -135,7 +135,9 @@ class DefaultController extends Controller
                 $em->flush();
 
                 // TODO Ok signal or redirect into the project
-                return $this->redirectToRoute('index');
+                 return $this->redirectToRoute('show_project', [
+                'name' => $project->getName()
+            ]);
             } else {
                 // Error
                 $errors = [];
